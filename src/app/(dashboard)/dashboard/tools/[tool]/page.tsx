@@ -1,3 +1,5 @@
+import PageContainer from "@/components/dashboard/page-container";
+import PageHeader from "@/components/dashboard/page-header";
 import { tools, ToolType } from "@/config/tools";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -10,7 +12,12 @@ const ToolPage = async ({ params }: { params: Promise<{ tool: string }> }) => {
     notFound();
   }
 
-  return <div>{tool.title}</div>;
+  return (
+    <PageContainer>
+      <PageHeader title={tool.title} description={tool.description} />
+      Test
+    </PageContainer>
+  );
 };
 
 export default ToolPage;
