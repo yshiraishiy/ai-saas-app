@@ -12,10 +12,14 @@ const ToolPage = async ({ params }: { params: Promise<{ tool: string }> }) => {
     notFound();
   }
 
+  const ToolComponent = tool.component;
+
   return (
     <PageContainer>
       <PageHeader title={tool.title} description={tool.description} />
-      Test
+      <div className="max-w-2xl">
+        <ToolComponent />
+      </div>
     </PageContainer>
   );
 };
