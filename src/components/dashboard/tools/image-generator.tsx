@@ -1,13 +1,24 @@
+"use client";
+
+import { generateImage } from "@/actions/action";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React from "react";
+import { GenerateImageState } from "@/types/actions";
+import { Download } from "lucide-react";
+import React, { useActionState } from "react";
 
 const ImageGenerator = () => {
+  const initialState: GenerateImageState = {
+    status: "idle",
+  };
+
+  const [state, formAction] = useActionState(generateImage, initialState);
+
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <form action="" className="space-y-4">
+        <form action={formAction} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="keyword">キーワード</Label>
             <Input
@@ -22,7 +33,23 @@ const ImageGenerator = () => {
       </div>
 
       {/* image preview */}
-      <div></div>
+      {state.imageUrl && (
+        <div className="space-y-4">
+          <div className="overflow-hidden rounded-lg border bg-background">
+            <div className="aspect-video relative">
+              <img
+                src={state.imageUrl}
+                alt="Generated image"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+          <Button className="w-full" variant={"secondary"}>
+            <Download className="mr-2" />
+            ダウンロード
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
