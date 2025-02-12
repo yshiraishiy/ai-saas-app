@@ -1,5 +1,6 @@
 import MobileNav from "@/components/dashboard/mobile-nav";
 import DashBoardNav from "@/components/dashboard/nav";
+import { Toaster } from "@/components/ui/toaster";
 import Link from "next/link";
 
 export default function DashboardLayout({
@@ -31,6 +32,8 @@ export default function DashboardLayout({
         {/* main contents */}
         <main className="flex w-full flex-col p-4">{children}</main>
       </div>
+
+      <Toaster />
     </div>
   );
 }

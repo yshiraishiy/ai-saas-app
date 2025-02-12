@@ -9,6 +9,7 @@ import { GenerateImageState } from "@/types/actions";
 import { Download, ImageIcon } from "lucide-react";
 import React, { useActionState } from "react";
 import LoadingSpinner from "../loading-spinner";
+import { toast } from "@/hooks/use-toast";
 
 const ImageGenerator = () => {
   const initialState: GenerateImageState = {
@@ -19,6 +20,44 @@ const ImageGenerator = () => {
     generateImage,
     initialState
   );
+
+  const handleDownload = () => {
+    if (!state.imageUrl) {
+      return;
+    }
+    try {
+      const base64Data = state.imageUrl.split(",")[1];
+
+      const blob = new Blob([Buffer.from(base64Data, "base64")], {
+        type: "image/png",
+      });
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = `${state.keyword}.png`;
+
+      document.body.appendChild(link);
+      link.click();
+
+      // 一時的なリンクを削除
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      toast({
+        title: "ダウンロード完了",
+        description: "画像のダウンロードが完了しました",
+      });
+    } catch (error) {
+      console.log("Download error:", error);
+      toast({
+        title: "エラー",
+        description: "ダウンロードに失敗しました",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -62,7 +101,11 @@ const ImageGenerator = () => {
               />
             </div>
           </div>
-          <Button className="w-full" variant={"secondary"}>
+          <Button
+            className="w-full"
+            variant={"outline"}
+            onClick={handleDownload}
+          >
             <Download className="mr-2" />
             ダウンロード
           </Button>
