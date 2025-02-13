@@ -1,6 +1,6 @@
 "use client";
 
-import { generateImage } from "@/actions/action";
+import { removeBackground } from "@/actions/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,22 +11,22 @@ import React, { useActionState } from "react";
 import LoadingSpinner from "../loading-spinner";
 import { toast } from "@/hooks/use-toast";
 
-const BackgroundRemover = () => {
-  const initialState: GenerateImageState = {
-    status: "idle",
-  };
+const initialState: GenerateImageState = {
+  status: "idle",
+};
 
+const BackgroundRemover = () => {
   const [state, formAction, pending] = useActionState(
-    generateImage,
+    removeBackground,
     initialState
   );
 
   const handleDownload = () => {
-    if (!state.imageUrl) {
+    if (!state.processedImage) {
       return;
     }
     try {
-      const base64Data = state.imageUrl.split(",")[1];
+      const base64Data = state.processedImage.split(",")[1];
 
       const blob = new Blob([Buffer.from(base64Data, "base64")], {
         type: "image/png",
@@ -36,7 +36,7 @@ const BackgroundRemover = () => {
       const link = document.createElement("a");
 
       link.href = url;
-      link.download = `${state.keyword}.png`;
+      link.download = `image.png`;
 
       document.body.appendChild(link);
       link.click();
@@ -92,12 +92,12 @@ const BackgroundRemover = () => {
       </div>
 
       {/* image preview */}
-      {state.imageUrl && (
+      {state.processedImage && (
         <div className="space-y-4">
           <div className="overflow-hidden rounded-lg border bg-background">
             <div className="aspect-video relative">
               <img
-                src={state.imageUrl}
+                src={state.processedImage}
                 alt="Generated image"
                 className="w-full h-full object-cover"
               />
