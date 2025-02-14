@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 
-import "./globals.css"
+import { ClerkProvider } from "@clerk/nextjs";
+
+import "./globals.css";
 
 const notSansJP = Noto_Sans_JP({
   subsets: ["latin"],
@@ -20,8 +22,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
-      <body className={`${notSansJP.className} antialiased`}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="ja">
+        <body className={`${notSansJP.className} antialiased`}>{children}</body>
+      </html>
+    </ClerkProvider>
   );
 }
