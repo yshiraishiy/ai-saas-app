@@ -1,3 +1,4 @@
+import AuthButton from "@/components/auth/auth-button";
 import MobileNav from "@/components/dashboard/mobile-nav";
 import DashBoardNav from "@/components/dashboard/nav";
 import { Toaster } from "@/components/ui/toaster";
@@ -14,9 +15,14 @@ export default function DashboardLayout({
       <header className="sticky top-0 z-40 border-b bg-background px-4">
         <div className="flex items-center h-16 max-w-screen-xl mx-auto w-full">
           <MobileNav />
-          <Link href={"/"}>
-            <h1 className="text-lg">AI Image Generator</h1>
-          </Link>
+          <div className="flex w-full">
+            <Link href={"/"}>
+              <h1 className="text-lg">AI Image Generator</h1>
+            </Link>
+            <div className="ml-auto">
+              <AuthButton />
+            </div>
+          </div>
         </div>
       </header>
 
