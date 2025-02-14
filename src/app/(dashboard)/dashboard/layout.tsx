@@ -10,16 +10,16 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="h-screen flex flex-col">
       {/* header */}
       <header className="sticky top-0 z-40 border-b bg-background px-4">
-        <div className="flex items-center h-16 max-w-screen-xl mx-auto w-full">
+        <div className="flex items-center h-16 mx-auto w-full">
           <MobileNav />
           <div className="flex w-full">
             <Link href={"/"}>
               <h1 className="text-lg">AI Image Generator</h1>
             </Link>
-            <div className="ml-auto">
+            <div className="ml-auto hidden md:block">
               <AuthButton />
             </div>
           </div>
@@ -27,16 +27,16 @@ export default function DashboardLayout({
       </header>
 
       {/* dashboard */}
-      <div className="mx-auto w-full max-w-screen-xl md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
+      <div className="flex flex-1">
         {/* sidebar */}
-        <aside className="md:sticky top-16 z-30 hidden md:block border-r h-[calc(100vh-4rem)]">
+        <aside className="hidden md:block md:w-56 lg:w-60 border-r h-[calc(100vh-4rem)]">
           <div className="py-6 px-2 lg:py-8">
             <DashBoardNav />
           </div>
         </aside>
 
         {/* main contents */}
-        <main className="flex w-full flex-col p-4">{children}</main>
+        <main className="flex-1 flex flex-col p-4">{children}</main>
       </div>
 
       <Toaster />
